@@ -1,0 +1,6 @@
+include LICENSE
+include README.md
+recursive-include cmip_vocab_server/resources *
+
+exclude cmip6_vocab_server/local_settings.py
+include cmip6_vocab_server/local_settings.py.ini
