@@ -16,6 +16,10 @@ pip install -U pip
 pip install https://github.com/cedadev/cmip6-vocab-server/archive/master.zip
 ```
 
+In order to populate the applications database a copy of the CMIP6 CV json
+files are needed. These should be downloaded from
+https://github.com/WCRP-CMIP/CMIP6_CVs/archive/master.zip
+
 Once the application has been installed then generate a `local_sttings.py` file
 from `local_sttings.py.ini` and update the contents as required.
 
