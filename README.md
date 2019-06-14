@@ -167,6 +167,7 @@ Additionally the returned json-ld can be formatted using `indent` in the
 
 ```
 Accept: application/ld+json;indent=4
+```
 
 ## Web Browser
 
