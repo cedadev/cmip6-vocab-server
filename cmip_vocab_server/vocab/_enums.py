@@ -8,7 +8,7 @@ class CV_Type(Enum):
     INSTITUTION_ID = 'institution_id'
     SOURCE_ID = 'source_id'
     TABLE_ID = 'table_id'
-    VARIABLE_ID = 'variable_id'
+#    VARIABLE_ID = 'variable_id'
 
 
 class CV_Description(Enum):
@@ -18,4 +18,4 @@ class CV_Description(Enum):
     INSTITUTION_ID = 'Insitition identifier'
     SOURCE_ID = 'Model identifier'
     TABLE_ID = 'Table identifier'
-    VARIABLE_ID = 'Short variable name'
+#    VARIABLE_ID = 'Short variable name'

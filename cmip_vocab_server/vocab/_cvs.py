@@ -91,9 +91,6 @@ if __name__ == '__main__':
     print(get_cv(CV_Type.ACTIVITY_ID))
 
     for cv in CV_Type:
-        if cv == CV_Type.VARIABLE_ID:
-            # currently we do not have a json file for variables
-            continue
         print(cv.value)
         print(get_cv(cv))
 
