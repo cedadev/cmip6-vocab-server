@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.CharField(max_length=100, primary_key=True, serialize=False)),
                 ('prefLabel', models.CharField(max_length=100)),
-                ('definition', models.CharField(blank=True, default='', max_length=300)),
+                ('definition', models.CharField(blank=True, default='', max_length=1500)),
             ],
             options={
                 'ordering': ('prefLabel',),
