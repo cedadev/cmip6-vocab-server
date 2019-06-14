@@ -13,7 +13,7 @@ class VocabViewSet(viewsets.ViewSet):
     API endpoint that allows vocabs to be viewed.
     """
 
-    def list(self, request):
+    def list(self, request, format=None):
         """
         Get the list of vocabs.
         """
@@ -36,7 +36,7 @@ class CollectionViewSet(viewsets.ViewSet):
     API endpoint that allows collections to be viewed.
     """
 
-    def list(self, request, vocab):
+    def list(self, request, vocab, format=None):
         """
         Get the list of collections.
         """
@@ -44,7 +44,7 @@ class CollectionViewSet(viewsets.ViewSet):
         # collections
         return redirect("/vocabs/" + vocab)
 
-    def retrieve(self, request, vocab, pk=None):
+    def retrieve(self, request, vocab, pk=None, format=None):
         """
         Get the details for an individual collection
         """
@@ -61,7 +61,7 @@ class ConceptViewSet(viewsets.ViewSet):
     API endpoint that allows concepts to be viewed.
     """
 
-    def list(self, request, vocab, collection):
+    def list(self, request, vocab, collection, format=None):
         """
         Get the list of concepts.
         """
@@ -69,7 +69,7 @@ class ConceptViewSet(viewsets.ViewSet):
         # concepts
         return redirect("/collections/{}/{}".format(vocab, collection))
 
-    def retrieve(self, request, vocab, collection, pk=None):
+    def retrieve(self, request, vocab, collection, pk=None, format=None):
         """
         Get the details for an individual collection
         """

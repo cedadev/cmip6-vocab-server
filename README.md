@@ -139,6 +139,36 @@ facets and then by calling the id of each facet in turn i.e.
 http://vocab-test.ceda.ac.uk/collections/CMIP6/activity_id/, you could get the
 possible values for a facet.
 
+## Content Negotiation
 
+The service will return the data as either `application/ld_json` or
+`text/html`, the default is `application/ld_json`.
 
+Content type can be requested via the `Accept` header
 
+```
+Accept: application/ld+json
+```
+
+or file extension (jsonld or api)
+
+```
+http://vocab-test.ceda.ac.uk/concepts/CMIP6/activity_id/CORDEX.jsonld
+```
+
+or request parameter (jsonld or api)
+
+```
+http://vocab-test.ceda.ac.uk/concepts/CMIP6/activity_id/CORDEX/?format=jsonld
+```
+
+Additionally the returned json-ld can be formatted using `indent` in the
+`Accept` header
+
+```
+Accept: application/ld+json;indent=4
+
+## Web Browser
+
+As the application is written using the django rest framework a web interface
+is automatically provided.
