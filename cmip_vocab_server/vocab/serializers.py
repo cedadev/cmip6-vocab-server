@@ -14,7 +14,7 @@ class VocabSerializer(serializers.BaseSerializer):
         vocabs = []
         for obj in objs:
             vocab = {}
-            vocab["@id"] = "{}/vocabs/{}".format(server_uri, obj.pk)
+            vocab["@id"] = "{}/vocabs/{}/".format(server_uri, obj.pk)
             vocab["@type"] = ["{}Collection".format(SKOS)]
             vocab["{}prefLabel".format(SKOS)] = obj.prefLabel
             vocab["{}definition".format(SKOS)] = obj.definition
@@ -32,10 +32,10 @@ class VocabDetailSerializer(serializers.BaseSerializer):
         server_uri = get_server_url(self.context['request'])
         collections = []
         for collection in obj.collections.all():
-            collections.append({"@id": "{}/collections/{}".format(
+            collections.append({"@id": "{}/collections/{}/".format(
                 server_uri, collection.pk)})
         vocab = {}
-        vocab["@id"] = "{}/vocabs/{}".format(server_uri, obj.pk)
+        vocab["@id"] = "{}/vocabs/{}/".format(server_uri, obj.pk)
         vocab["@type"] = ["{}Collection".format(SKOS)]
         vocab["{}prefLabel".format(SKOS)] = obj.prefLabel
         vocab["{}definition".format(SKOS)] = obj.definition
@@ -54,10 +54,10 @@ class CollectionsSerializer(serializers.BaseSerializer):
         server_uri = get_server_url(self.context['request'])
         members = []
         for member in obj.members.all():
-            members.append({"@id": "{}/concepts/{}".format(
+            members.append({"@id": "{}/concepts/{}/".format(
                 server_uri, member.pk)})
         collection = {}
-        collection["@id"] = "{}/collections/{}".format(server_uri, obj.pk)
+        collection["@id"] = "{}/collections/{}/".format(server_uri, obj.pk)
         collection["@type"] = ["{}Collection".format(SKOS)]
         collection["{}prefLabel".format(SKOS)] = obj.prefLabel
         collection["{}definition".format(SKOS)] = obj.definition
@@ -74,7 +74,7 @@ class ConceptSerializer(serializers.BaseSerializer):
     def to_representation(self, obj):
         server_uri = get_server_url(self.context['request'])
         concept = {}
-        concept["@id"] = "{}/concepts/{}".format(server_uri, obj.pk)
+        concept["@id"] = "{}/concepts/{}/".format(server_uri, obj.pk)
         concept["@type"] = ["{}Concept".format(SKOS)]
         concept["{}prefLabel".format(SKOS)] = obj.prefLabel
         concept["{}definition".format(SKOS)] = obj.definition
