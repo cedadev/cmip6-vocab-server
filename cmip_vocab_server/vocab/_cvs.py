@@ -3,6 +3,7 @@ from os import path
 
 from cmip_vocab_server.settings import CV_DIR
 from cmip_vocab_server.vocab._enums import CV_Type
+from dreqPy import dreq
 
 
 def get_cv(cv_type):
@@ -19,6 +20,10 @@ def get_cv(cv_type):
 
     file_name = 'CMIP6_{}.json'.format(cv_type.value)
     cv_file = path.join(CV_DIR, file_name)
+
+    if cv_type == CV_Type.VARIABLE_ID:
+        cv = _parse_variable()
+        return cv
 
     with open(cv_file) as json_data:
         cv_json = json.load(json_data)
@@ -83,6 +88,25 @@ def _parse_table(cv_json, cv_type):
     cv = {}
     for key in cv_json:
         cv[key] = ''
+
+    return cv
+
+
+def _parse_variable():
+    """
+    Extract titles and descriptions for the variables.
+
+    @return: a dict of pref_label, description
+    """
+    # load the data
+    dq = dreq.loadDreq()
+
+    # get a list of the variables
+    variables = dq.coll['var'].items
+
+    cv = {}
+    for v in variables:
+        cv[v.label] = v.title
 
     return cv
 

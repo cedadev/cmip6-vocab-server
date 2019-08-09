@@ -65,7 +65,7 @@ def get_cv_description(cv_type):
     if cv_type == CV_Type.TABLE_ID:
         return CV_Description.TABLE_ID.value
 
-#     if cv_type == CV_Type.VARIABLE_ID:
-#         return CV_Description.VARIABLE_ID.value
+    if cv_type == CV_Type.VARIABLE_ID:
+        return CV_Description.VARIABLE_ID.value
 
     return ''
