@@ -21,6 +21,7 @@ def get_cv(cv_type):
     file_name = 'CMIP6_{}.json'.format(cv_type.value)
     cv_file = path.join(CV_DIR, file_name)
 
+    # do something special for 'variable'
     if cv_type == CV_Type.VARIABLE_ID:
         cv = _parse_variable()
         return cv
@@ -53,7 +54,11 @@ def _parse_kv(cv_json, cv_type):
 
     @return: a dict of pref_label, description
     """
-    cv = cv_json[cv_type.value]
+    cv_json = cv_json[cv_type.value]
+    cv = {}
+    for key in cv_json:
+        cv[key] = {'prefLabel': cv_json[key],
+                   'definition': ''}
     return cv
 
 
@@ -70,7 +75,8 @@ def _parse_experiment(cv_json, cv_type, definition_label):
     cv_json = cv_json[cv_type.value]
     cv = {}
     for key in cv_json:
-        cv[key] = cv_json[key][definition_label]
+        cv[key] = {'prefLabel': cv_json[key][definition_label],
+                   'definition': ''}
 
     return cv
 
@@ -87,7 +93,8 @@ def _parse_table(cv_json, cv_type):
     cv_json = cv_json[cv_type.value]
     cv = {}
     for key in cv_json:
-        cv[key] = ''
+        cv[key] = {'prefLabel': '',
+                   'definition': ''}
 
     return cv
 
@@ -106,7 +113,8 @@ def _parse_variable():
 
     cv = {}
     for v in variables:
-        cv[v.label] = v.title
+        cv[v.label] = {'prefLabel': v.title,
+                       'definition': v.description}
 
     return cv
 

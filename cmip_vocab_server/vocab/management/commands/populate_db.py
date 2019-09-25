@@ -25,10 +25,10 @@ class Command(BaseCommand):
             collection.save()
 
             cv = get_cv(cv_type)
-            for label in cv:
-                concept_id = "{}/{}".format(collection_id, label)
+            for notation in cv:
+                concept_id = "{}/{}".format(collection_id, notation)
                 concept = Concept(
-                    id=concept_id, prefLabel=label, definition=cv[label])
+                    id=concept_id, notation=notation, prefLabel=cv[notation]['prefLabel'], definition=cv[notation]['definition'])
                 concept.save()
                 collection.members.add(concept)
 

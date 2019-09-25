@@ -77,6 +77,8 @@ class ConceptSerializer(serializers.BaseSerializer):
         concept["@id"] = "{}/concepts/{}/".format(server_uri, obj.pk)
         concept["@type"] = ["{}Concept".format(SKOS)]
         concept["{}prefLabel".format(SKOS)] = obj.prefLabel
-        concept["{}definition".format(SKOS)] = obj.definition
+        concept["{}notation".format(SKOS)] = obj.notation
+        if len(obj.definition) > 0:
+            concept["{}definition".format(SKOS)] = obj.definition
 
         return concept
