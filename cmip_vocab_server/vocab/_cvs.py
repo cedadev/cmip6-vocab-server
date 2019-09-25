@@ -16,9 +16,12 @@ def get_cv(cv_type):
     """
 
     if not isinstance(cv_type, CV_Type):
-        raise ValueError('Invalid CV_Type: {}'.format(cv_type))
+        raise ValueError("Invalid CV_Type: {}".format(cv_type))
 
-    file_name = 'CMIP6_{}.json'.format(cv_type.value)
+    if cv_type.value == CV_Type.MIP_ERA.value:
+        file_name = "{}.json".format(cv_type.value)
+    else:
+        file_name = "CMIP6_{}.json".format(cv_type.value)
     cv_file = path.join(CV_DIR, file_name)
 
     # do something special for 'variable'
@@ -29,15 +32,24 @@ def get_cv(cv_type):
     with open(cv_file) as json_data:
         cv_json = json.load(json_data)
 
-    if cv_type in [CV_Type.ACTIVITY_ID, CV_Type.INSTITUTION_ID,
-                   CV_Type.GRID_LABEL]:
+    if cv_type in [
+        CV_Type.ACTIVITY_ID,
+        CV_Type.FREQUENCY,
+        CV_Type.GRID_LABEL,
+        CV_Type.INSTITUTION_ID,
+        CV_Type.MIP_ERA,
+        CV_Type.NOMINAL_RESOLUTION,
+        CV_Type.REALM,
+        CV_Type.SOURCE_TYPE,
+        CV_Type.SUB_EXPERIMENT_ID,
+    ]:
         cv = _parse_kv(cv_json, cv_type)
 
     if cv_type == CV_Type.EXPERIMENT_ID:
-        cv = _parse_experiment(cv_json, cv_type, 'experiment')
+        cv = _parse_experiment(cv_json, cv_type, "experiment")
 
     if cv_type == CV_Type.SOURCE_ID:
-        cv = _parse_experiment(cv_json, cv_type, 'label_extended')
+        cv = _parse_experiment(cv_json, cv_type, "label_extended")
 
     if cv_type == CV_Type.TABLE_ID:
         cv = _parse_table(cv_json, cv_type)
@@ -56,9 +68,13 @@ def _parse_kv(cv_json, cv_type):
     """
     cv_json = cv_json[cv_type.value]
     cv = {}
-    for key in cv_json:
-        cv[key] = {'prefLabel': cv_json[key],
-                   'definition': ''}
+    if isinstance(cv_json, list):
+        # we do not have a pref label so use the notation
+        for notation in cv_json:
+            cv[notation] = {"pref_label": notation, "definition": ""}
+    else:
+        for key in cv_json:
+            cv[key] = {"pref_label": cv_json[key], "definition": ""}
     return cv
 
 
@@ -75,8 +91,7 @@ def _parse_experiment(cv_json, cv_type, definition_label):
     cv_json = cv_json[cv_type.value]
     cv = {}
     for key in cv_json:
-        cv[key] = {'prefLabel': cv_json[key][definition_label],
-                   'definition': ''}
+        cv[key] = {"pref_label": cv_json[key][definition_label], "definition": ""}
 
     return cv
 
@@ -93,8 +108,7 @@ def _parse_table(cv_json, cv_type):
     cv_json = cv_json[cv_type.value]
     cv = {}
     for key in cv_json:
-        cv[key] = {'prefLabel': '',
-                   'definition': ''}
+        cv[key] = {"pref_label": "", "definition": ""}
 
     return cv
 
@@ -109,17 +123,16 @@ def _parse_variable():
     dq = dreq.loadDreq()
 
     # get a list of the variables
-    variables = dq.coll['var'].items
+    variables = dq.coll["var"].items
 
     cv = {}
     for v in variables:
-        cv[v.label] = {'prefLabel': v.title,
-                       'definition': v.description}
+        cv[v.label] = {"pref_label": v.title, "definition": v.description}
 
     return cv
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(get_cv(CV_Type.ACTIVITY_ID))
 
     for cv in CV_Type:
@@ -127,6 +140,6 @@ if __name__ == '__main__':
         print(get_cv(cv))
 
     try:
-        print(get_cv('junk'))
+        print(get_cv("junk"))
     except ValueError:
         pass

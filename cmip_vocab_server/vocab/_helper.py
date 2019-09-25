@@ -6,5 +6,5 @@ def get_server_url(request):
 
     @return a str containing the server URL
     """
-    server = '{}://{}'.format(request.scheme, request.get_host())
+    server = "{}://{}".format(request.scheme, request.get_host())
     return server

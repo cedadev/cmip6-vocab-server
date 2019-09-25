@@ -1,6 +1,10 @@
 from cmip_vocab_server.vocab.models import Collection, Concept, Vocab
-from cmip_vocab_server.vocab.serializers import CollectionsSerializer, \
-    ConceptSerializer, VocabSerializer, VocabDetailSerializer
+from cmip_vocab_server.vocab.serializers import (
+    CollectionsSerializer,
+    ConceptSerializer,
+    VocabSerializer,
+    VocabDetailSerializer,
+)
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from rest_framework import viewsets
@@ -18,7 +22,7 @@ class VocabViewSet(viewsets.ViewSet):
         Get the list of vocabs.
         """
         queryset = Vocab.objects.all()
-        serializer = VocabSerializer(queryset, context={'request': request})
+        serializer = VocabSerializer(queryset, context={"request": request})
         return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
@@ -27,7 +31,7 @@ class VocabViewSet(viewsets.ViewSet):
         """
         queryset = Vocab.objects.all()
         vocab = get_object_or_404(queryset, pk=pk)
-        serializer = VocabDetailSerializer(vocab, context={'request': request})
+        serializer = VocabDetailSerializer(vocab, context={"request": request})
         return Response(serializer.data)
 
 
@@ -51,8 +55,7 @@ class CollectionViewSet(viewsets.ViewSet):
         pk = "{}/{}".format(vocab, pk)
         queryset = Collection.objects.all()
         collection = get_object_or_404(queryset, pk=pk)
-        serializer = CollectionsSerializer(
-            collection, context={'request': request})
+        serializer = CollectionsSerializer(collection, context={"request": request})
         return Response(serializer.data)
 
 
@@ -76,5 +79,5 @@ class ConceptViewSet(viewsets.ViewSet):
         pk = "{}/{}/{}".format(vocab, collection, pk)
         queryset = Concept.objects.all()
         concept = get_object_or_404(queryset, pk=pk)
-        serializer = ConceptSerializer(concept, context={'request': request})
+        serializer = ConceptSerializer(concept, context={"request": request})
         return Response(serializer.data)

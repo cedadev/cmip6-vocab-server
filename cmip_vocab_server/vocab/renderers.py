@@ -2,8 +2,8 @@ from rest_framework import renderers
 
 
 class JsonLDRenderer(renderers.JSONRenderer):
-    media_type = 'application/ld+json'
-    format = 'jsonld'
+    media_type = "application/ld+json"
+    format = "jsonld"
 
     def __init__(self):
-            super().__init__()
+        super().__init__()

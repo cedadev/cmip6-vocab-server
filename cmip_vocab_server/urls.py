@@ -19,12 +19,16 @@ from rest_framework import routers
 from cmip_vocab_server.vocab import views
 
 router = routers.DefaultRouter()
-router.register(r'vocabs', views.VocabViewSet, basename='vocab')
-router.register(r'collections/(?P<vocab>[^/.]+)', views.CollectionViewSet, basename='collection')
-router.register(r'concepts/(?P<vocab>[^/.]+)/(?P<collection>[^/.]+)', views.ConceptViewSet, basename='concept')
+router.register(r"vocabs", views.VocabViewSet, basename="vocab")
+router.register(
+    r"collections/(?P<vocab>[^/.]+)", views.CollectionViewSet, basename="collection"
+)
+router.register(
+    r"concepts/(?P<vocab>[^/.]+)/(?P<collection>[^/.]+)",
+    views.ConceptViewSet,
+    basename="concept",
+)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
-urlpatterns = [
-    path('', include(router.urls))
-]
+urlpatterns = [path("", include(router.urls))]

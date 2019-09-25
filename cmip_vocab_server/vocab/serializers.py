@@ -10,7 +10,7 @@ class VocabSerializer(serializers.BaseSerializer):
     """
 
     def to_representation(self, objs):
-        server_uri = get_server_url(self.context['request'])
+        server_uri = get_server_url(self.context["request"])
         vocabs = []
         for obj in objs:
             vocab = {}
@@ -29,11 +29,12 @@ class VocabDetailSerializer(serializers.BaseSerializer):
     """
 
     def to_representation(self, obj):
-        server_uri = get_server_url(self.context['request'])
+        server_uri = get_server_url(self.context["request"])
         collections = []
         for collection in obj.collections.all():
-            collections.append({"@id": "{}/collections/{}/".format(
-                server_uri, collection.pk)})
+            collections.append(
+                {"@id": "{}/collections/{}/".format(server_uri, collection.pk)}
+            )
         vocab = {}
         vocab["@id"] = "{}/vocabs/{}/".format(server_uri, obj.pk)
         vocab["@type"] = ["{}Collection".format(SKOS)]
@@ -51,11 +52,10 @@ class CollectionsSerializer(serializers.BaseSerializer):
     """
 
     def to_representation(self, obj):
-        server_uri = get_server_url(self.context['request'])
+        server_uri = get_server_url(self.context["request"])
         members = []
         for member in obj.members.all():
-            members.append({"@id": "{}/concepts/{}/".format(
-                server_uri, member.pk)})
+            members.append({"@id": "{}/concepts/{}/".format(server_uri, member.pk)})
         collection = {}
         collection["@id"] = "{}/collections/{}/".format(server_uri, obj.pk)
         collection["@type"] = ["{}Collection".format(SKOS)]
@@ -72,7 +72,7 @@ class ConceptSerializer(serializers.BaseSerializer):
     """
 
     def to_representation(self, obj):
-        server_uri = get_server_url(self.context['request'])
+        server_uri = get_server_url(self.context["request"])
         concept = {}
         concept["@id"] = "{}/concepts/{}/".format(server_uri, obj.pk)
         concept["@type"] = ["{}Concept".format(SKOS)]
