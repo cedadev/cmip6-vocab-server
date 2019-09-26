@@ -14,7 +14,15 @@ def get_cv(cv_type):
 
     @return a json object containing details of the CV
     """
-
+    # TODO waiting for vocabs for these
+    if cv_type in [
+        CV_Type.CF_STANDARD_NAME,
+        CV_Type.DATA_NODE,
+        CV_Type.MODEL_COHORT,
+        CV_Type.PRODUCT,
+        CV_Type.VARIANT_LABEL,
+    ]:
+        return []
     if not isinstance(cv_type, CV_Type):
         raise ValueError("Invalid CV_Type: {}".format(cv_type))
 
@@ -42,6 +50,7 @@ def get_cv(cv_type):
         CV_Type.REALM,
         CV_Type.SOURCE_TYPE,
         CV_Type.SUB_EXPERIMENT_ID,
+        CV_Type.TABLE_ID,
     ]:
         cv = _parse_kv(cv_json, cv_type)
 
@@ -50,9 +59,6 @@ def get_cv(cv_type):
 
     if cv_type == CV_Type.SOURCE_ID:
         cv = _parse_experiment(cv_json, cv_type, "label_extended")
-
-    if cv_type == CV_Type.TABLE_ID:
-        cv = _parse_table(cv_json, cv_type)
 
     return cv
 
@@ -71,10 +77,18 @@ def _parse_kv(cv_json, cv_type):
     if isinstance(cv_json, list):
         # we do not have a pref label so use the notation
         for notation in cv_json:
-            cv[notation] = {"pref_label": notation, "definition": ""}
+            cv[_clean_key(notation)] = {
+                "notation": notation,
+                "pref_label": notation,
+                "definition": "",
+            }
     else:
         for key in cv_json:
-            cv[key] = {"pref_label": cv_json[key], "definition": ""}
+            cv[_clean_key(key)] = {
+                "notation": key,
+                "pref_label": cv_json[key],
+                "definition": "",
+            }
     return cv
 
 
@@ -91,24 +105,11 @@ def _parse_experiment(cv_json, cv_type, definition_label):
     cv_json = cv_json[cv_type.value]
     cv = {}
     for key in cv_json:
-        cv[key] = {"pref_label": cv_json[key][definition_label], "definition": ""}
-
-    return cv
-
-
-def _parse_table(cv_json, cv_type):
-    """
-    Extract key, values from a 'table' json file.
-
-    @param cv_json: a json representation of the cv
-    @param cv_type(CV_Type): the CV of interest
-
-    @return: a dict of pref_label, description
-    """
-    cv_json = cv_json[cv_type.value]
-    cv = {}
-    for key in cv_json:
-        cv[key] = {"pref_label": "", "definition": ""}
+        cv[_clean_key(key)] = {
+            "notation": key,
+            "pref_label": cv_json[key][definition_label],
+            "definition": "",
+        }
 
     return cv
 
@@ -127,9 +128,17 @@ def _parse_variable():
 
     cv = {}
     for v in variables:
-        cv[v.label] = {"pref_label": v.title, "definition": v.description}
+        cv[_clean_key(v.label)] = {
+            "notation": v.label,
+            "pref_label": v.title,
+            "definition": v.description,
+        }
 
     return cv
+
+
+def _clean_key(key):
+    return key.replace(" ", "_").replace(".", "_")
 
 
 if __name__ == "__main__":

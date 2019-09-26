@@ -26,13 +26,13 @@ class Command(BaseCommand):
             collection.save()
 
             cv = get_cv(cv_type)
-            for notation in cv:
-                concept_id = "{}/{}".format(collection_id, notation)
+            for key in cv:
+                concept_id = "{}/{}".format(collection_id, key)
                 concept = Concept(
                     id=concept_id,
-                    notation=notation,
-                    prefLabel=cv[notation]["pref_label"],
-                    definition=cv[notation]["definition"],
+                    notation=cv[key]["notation"],
+                    prefLabel=cv[key]["pref_label"],
+                    definition=cv[key]["definition"],
                 )
                 concept.save()
                 collection.members.add(concept)
@@ -55,6 +55,12 @@ def get_cv_description(cv_type):
     if cv_type == CV_Type.ACTIVITY_ID:
         return CV_Description.ACTIVITY_ID.value
 
+    if cv_type == CV_Type.CF_STANDARD_NAME:
+        return CV_Description.CF_STANDARD_NAME.value
+
+    if cv_type == CV_Type.DATA_NODE:
+        return CV_Description.DATA_NODE.value
+
     if cv_type == CV_Type.EXPERIMENT_ID:
         return CV_Description.EXPERIMENT_ID.value
 
@@ -70,8 +76,14 @@ def get_cv_description(cv_type):
     if cv_type == CV_Type.MIP_ERA:
         return CV_Description.MIP_ERA.value
 
+    if cv_type == CV_Type.MODEL_COHORT:
+        return CV_Description.MODEL_COHORT.value
+
     if cv_type == CV_Type.NOMINAL_RESOLUTION:
         return CV_Description.NOMINAL_RESOLUTION.value
+
+    if cv_type == CV_Type.PRODUCT:
+        return CV_Description.PRODUCT.value
 
     if cv_type == CV_Type.REALM:
         return CV_Description.REALM.value
@@ -90,5 +102,8 @@ def get_cv_description(cv_type):
 
     if cv_type == CV_Type.VARIABLE_ID:
         return CV_Description.VARIABLE_ID.value
+
+    if cv_type == CV_Type.VARIANT_LABEL:
+        return CV_Description.VARIANT_LABEL.value
 
     return ""
